@@ -7,4 +7,4 @@ music_player
 如果提示缺少module，需自行安装。
 
 效果图
-- ![](https://github.com/fusu192/music_player/blob/master/static/img/%E7%A4%BA%E4%BE%8B%E5%9B%BE.jpg)
+- ![](https://img2020.cnblogs.com/blog/1011634/202004/1011634-20200423120334395-1721738055.jpg)
