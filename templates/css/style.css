@@ -1,0 +1,258 @@
+*{
+		padding: 0;
+		margin: 0
+	}
+	@font-face {font-family: 'iconfont';
+    src: url('../font/iconfont.eot'); /* IE9*/
+    src: url('../font/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../font/iconfont.woff') format('woff'), /* chrome、firefox */
+    url('../font/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('../font/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+	.clear{}
+	.clear::after{
+		content: "";
+		display: block;
+		width: 100%;
+		height: 0;
+		clear: both;
+	}
+	.container{
+		position: absolute;
+		top:40%;
+		left: 26%;
+		margin-left: -26%;
+		margin-top: -300px;
+		/*width: 1000px;*/
+		/*height: 700px;*/
+		width: 100%;
+		height: 100%;
+		/*border: 1px solid rgba(255,255,255,0.5);*/
+		box-shadow: 0 0 10px rgba(255,255,255,0.5);
+		/*background: linear-gradient(top,#fb4b4b,#3f3ffb);*/
+		/*background: -moz-linear-gradient(top,#fb4b4b,#3f3ffb);*/
+		/*background: -webkit-linear-gradient(top,#fb4b4b,#3f3ffb);*/
+        background: linear-gradient(top,#777979,#222425);
+		background: -moz-linear-gradient(top,#777979,#222425);
+		background: -webkit-linear-gradient(top,#777979,#222425);
+	}
+	.music{
+		width: 50%;
+		height: 100%;
+		border-right: 1px solid rgba(255,255,255,0.5);
+		box-sizing: border-box;
+		float: left;
+	}
+	.photo{
+		width: 100%;
+	}
+	.photo_pic{
+	position: relative;
+	width: 250px;
+	height: 250px;
+	margin: 75px auto 0;
+	border-radius: 50%;
+	background: url(../img/img_no.jpg);
+	box-shadow: 0 0 2px #666, 0 0 10px #666;
+	}
+	.choose{
+		height:150px;
+	}
+	.choose_obj{
+		width: 50%;
+		float: left;
+		text-align: center;
+		color: #fff
+	}
+
+	.icon{
+		margin-top: 40px;
+		height: 50px;
+		font-size:50px;
+		line-height: 50px;
+		font-family: "iconfont";
+		cursor: pointer;
+		text-shadow: 2px 2px 0px #666;
+	}
+	.icon.yellow+span{
+		color: aquamarine;
+	}
+	.icon.pink+span{
+		color: #f7759f;
+	}
+	.choose_obj span{
+		display: block;
+		height: 30px;
+		line-height: 30px;
+		font-family: "微软雅黑";
+		font-size: 14px;
+	}
+	.cd{
+		width: 10px;
+		height: 10px;
+		position: absolute;
+		top:50%;
+		left: 50%;
+		margin-top: -15px;
+		margin-left: -15px;
+		background: #666;
+		border: 10px solid #fff;
+		box-shadow: 0 0 1px #000;
+		border-radius: 50%;
+	}
+	.progress{
+		font-family: "iconfont"
+	}
+	.lyric{
+		width: 50%;
+		height: 100%;
+		float: right;
+	}
+	time{
+		font-size: 12px;
+		width: 49px;
+		text-align: center;
+		color: #fff;
+		height: 50px;
+		line-height: 50px;
+		float: left;
+        margin-top: 165px;
+	}
+	.progress_bar{
+		position: relative;
+		width: 85%;
+		height: 2px;
+		margin-top: 190px;
+		background-color: #fff;
+		float: left;
+		cursor: pointer;
+	}
+	.progress_cube{
+		position: absolute;
+		left: 0;
+		top: -5px;
+		width: 4px;
+		height: 4px;
+		background-color: #000;
+		border:5px solid #fff;
+		border-radius: 50%;
+		cursor: pointer;
+	}
+	.progress_obj{
+
+		line-height: 30px;
+		color:#ffffff;
+        margin-top: 35px;
+	}
+	.ctrl_btn{
+		width: 359px;
+		float: left;
+	}
+	
+	.ctrl_btn .btn{
+		width: 33.3%;
+		float: left;
+		text-align: center;
+		cursor: pointer;
+	}
+	.play_btn{
+		font-size: 24px;
+	}
+	.ctrl_info{
+		width: 300px;
+		float: left;
+	}
+	.vol{
+		padding-left: 50%;
+		width: 100px;
+		height: 100%;
+		float: left;
+
+	}
+	.vol_bar{
+		position: relative;
+		width: 70px;
+		float: right;
+		height: 2px;
+		background-color: #fff;
+		margin-top: 13px;
+	}
+	.vol_cube{
+		position: absolute;
+		left: 0;
+		top: -4px;
+		width: 3px;
+		height: 3px;
+		background-color: #000;
+		border:4px solid #fff;
+		border-radius: 50%;
+		cursor: pointer;
+	}
+	.list{
+		width: 20px;
+		height: 100%;
+		float: right;
+		text-align: center;
+	}
+	.lyric_tit{
+		height: 50px;
+		line-height: 50px;
+		color: #fff;
+		text-align: center;
+		font-weight: 700;
+		margin-top: 30px;
+        color: darkgrey;
+        color: aquamarine;
+	}
+	.lyric_con{
+		position: relative;
+		line-height: 40px;
+		color: #fff;
+		font-size: 14px;
+		padding: 0px 50px ;
+		text-align: center;
+		height: 450px;
+		overflow: hidden;
+		margin-top: 20px;		
+	}
+	#lyric_txt{
+		position: absolute;
+		left: 0;
+		top:0;
+		width: 100%;
+		height: 100%;
+	}
+	.lyric_con p.played{
+		color: aquamarine;
+	}
+	.lyric_con p.active{
+		color: aquamarine;
+		font-size: 20px;
+		font-weight: 700;
+	}
+	.audio{
+		display: none;
+	}
+	#list{
+		position: relative;
+		cursor: pointer;
+	}
+	#list_con{
+		position: absolute;
+		bottom: 130px;
+		right: -180px;
+		width: 150px;
+		height: 100px;
+		color: #666;
+		padding: 10px 0;
+		border-radius: 5px;
+		background: rgba(255,255,255,.8);
+		font-family: "微软雅黑";
+		font-size: 14px;
+		cursor: pointer;
+		display: none;
+	}
+    p{
+        color:darkgrey;
+    }

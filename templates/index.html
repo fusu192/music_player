@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	<title>音乐播放器</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0
+		}
+
+		@font-face {
+			font-family: 'iconfont';
+			src: url('font/iconfont.eot');
+			/* IE9*/
+			src: url('font/iconfont.eot?#iefix') format('embedded-opentype'),
+				/* IE6-IE8 */
+				url('font/iconfont.woff') format('woff'),
+				/* chrome、firefox */
+				url('font/iconfont.ttf') format('truetype'),
+				/* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+				url('font/iconfont.svg#iconfont') format('svg');
+			/* iOS 4.1- */
+		}
+
+		.clear::after {
+			content: "";
+			display: block;
+			width: 100%;
+			height: 0;
+			clear: both;
+		}
+
+		html,
+		body {
+			height: 100%;
+			width: 100%;
+			background: linear-gradient(top, #777979, #222425);
+			background: -moz-linear-gradient(top, #777979, #222425);
+			background: -webkit-linear-gradient(top, #777979, #222425);
+			overflow: hidden;
+		}
+
+		.container {
+			position: absolute;
+			top: 40%;
+			left: 26%;
+			margin-left: -26%;
+			margin-top: -300px;
+			/*width: 1000px;*/
+			/*height: 700px;*/
+			width: 100%;
+			height: 100%;
+			/*border: 1px solid rgba(255,255,255,0.5);*/
+			/*background: linear-gradient(top,#fb4b4b,#3f3ffb);*/
+			/*background: -moz-linear-gradient(top,#fb4b4b,#3f3ffb);*/
+			/*background: -webkit-linear-gradient(top,#fb4b4b,#3f3ffb);*/
+
+		}
+
+		.icon.yellow+span {
+			color: aquamarine;
+		}
+
+		.icon.pink+span {
+			color: #f7759f;
+		}
+
+		.cd {
+			width: 10px;
+			height: 10px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-top: -15px;
+			margin-left: -15px;
+			background: #666;
+			border: 10px solid #fff;
+			box-shadow: 0 0 1px #000;
+			border-radius: 50%;
+		}
+
+		.progress {
+			width: 100%;
+			height: auto;
+			font-family: "iconfont";
+			z-index: 99;
+			position: fixed;
+    		bottom: 66px;
+		}
+
+		.lyric {
+			width: 50%;
+			/* height: 100%; */
+			/* float: right; */
+			position: absolute;
+			width: 100%;
+			top: 0;
+			bottom: 140px;
+		}
+
+		time {
+			font-size: 12px;
+			width: 49px;
+			text-align: center;
+			color: #fff;
+			height: 50px;
+			line-height: 50px;
+			/* float: left; */
+			margin-top: 165px;
+		}
+
+		.progress_bar {
+			position: relative;
+			width: 85%;
+			height: 2px;
+			margin-top: 190px;
+			background-color: #fff;
+			/* float: left; */
+			cursor: pointer;
+		}
+
+		.progress_cube {
+			position: absolute;
+			left: 0;
+			top: -5px;
+			width: 4px;
+			height: 4px;
+			background-color: #000;
+			border: 5px solid #fff;
+			border-radius: 50%;
+			cursor: pointer;
+		}
+
+		.progress_obj {
+
+			line-height: 30px;
+			color: #ffffff;
+			margin-top: 35px;
+			position: relative;
+
+		}
+
+		.progress_bar_box {
+			display: flex;
+			justify-content: space-between;
+			padding: 0 30px;
+		}
+
+		.ctrl_btn {
+			width: 359px;
+			/* float: left; */
+			position: absolute;
+			left: 50%;
+			top: 0;
+			transform: translateX(-50%);
+		}
+
+		.ctrl_btn .btn {
+			width: 33.3%;
+			float: left;
+			text-align: center;
+			cursor: pointer;
+		}
+
+		.play_btn {
+			font-size: 24px;
+		}
+
+		.lyric_tit {
+			height: 50px;
+			line-height: 50px;
+			color: #fff;
+			text-align: center;
+			font-weight: 700;
+			margin-top: 30px;
+			color: darkgrey;
+			color: aquamarine;
+		}
+
+		.lyric_con {
+			position: relative;
+			line-height: 40px;
+			color: #fff;
+			font-size: 14px;
+			padding: 0px 50px;
+			text-align: center;
+			height: 470px;
+			overflow: hidden;
+			margin-top: 20px;
+		}
+
+		#lyric_txt {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		.lyric_con p.played {
+			color: aquamarine;
+		}
+
+		.lyric_con p.active {
+			color: aquamarine;
+			font-size: 20px;
+			font-weight: 700;
+		}
+
+		.audio {
+			display: none;
+		}
+
+		p {
+			color: darkgrey;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container" id="container">
+		<div class="progress">
+			<div class="progress_obj progress_bar_box">
+				<time class="">00:00</time>
+				<div class="progress_bar" id="progress_bar" style="">
+					<div class="progress_cube" id="progress_cube"></div>
+				</div>
+				<time class="">00:00</time>
+			</div>
+			<div class="progress_obj clear">
+				<div class="ctrl_btn">
+					<div id="prev_btn" class="prev_btn btn">&#xe60d;</div>
+					<div id="play_btn" class="play_btn btn">&#xe60e;</div>
+					<div id="next_btn" class="next_btn btn">&#xe60b;</div>
+				</div>
+				<audio src="{{ mp3 }}"></audio>
+			</div>
+		</div>
+		<div class="lyric">
+			<div class="lyric_tit" id="lyric_tit"></div>
+			<div class="lyric_con" id="lyric_con">
+				<div id="lyric_txt"></div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>
+
+<script>
+	var lyric ={{lyrics| safe}};
+	window.onload = function () {
+		var play_btn = document.getElementById("play_btn");
+		var prev_btn = document.getElementById("prev_btn");
+		var next_btn = document.getElementById("next_btn");
+		var audio = document.getElementsByTagName("audio")[0];
+		var initTime = document.getElementsByTagName("time")[0];
+		var time = document.getElementsByTagName("time")[1];
+		var progress_bar = document.getElementById("progress_bar");
+		var progress_cube = document.getElementById("progress_cube");
+
+		var lyric_con = document.getElementById("lyric_con");
+		var lyric_txt = document.getElementById("lyric_txt");
+		var lyric_tit = document.getElementById("lyric_tit");
+
+		var songIndex = 0;
+		var container = document.getElementById("container");
+		var obj;
+
+		//设置初始化音量
+		audio.volume=0.1;
+
+		function config() {
+			this.play_mark = true;
+			this.duration = audio.duration;
+			this.play_btn = "&#xe60e;";
+			this.rotateSum = 0;
+			this.endplay_btn = "&#xe60c;";
+			this.endicon2 = "&#xe674;";
+		}
+
+		obj = new config();
+
+		//默认是没播放状态
+		//obj.play_mark=false;
+		//初始化播放按钮
+		/*
+		if(obj.play_mark){
+			play_btn.innerHTML = obj.play_btn;
+		}
+		*/
+		
+		var allSong = "";
+		for (var song = 0; song < lyric.length; song++) {
+			allSong += "<p>" + lyric[song].name + "</p>"
+		}
+
+		//下一首
+		next_btn.onclick = function () {
+			songIndex++;
+			change_music();
+		}
+		prev_btn.onclick = function () {
+			songIndex--;
+			change_music();
+		}
+		function change_music() {
+			if (songIndex >= lyric.length) {
+				//songIndex = 0
+				songIndex = lyric.length-1
+			}
+			else if (songIndex < 0) {
+				//songIndex = lyric.length-1
+				songIndex = 0
+			}
+			obj = new config();
+			iconinit();
+			audioInit();
+			playedTime();
+			lyric_ctrl();
+		}
+
+		//初始化总时长、音量等
+		function audioInit() {
+			time.innerHTML = format(audio.duration);
+			play_btn.innerHTML = obj.play_btn;
+
+			lyric_tit.innerText = lyric[songIndex].name;
+			audio.src = lyric[songIndex].audio_src;
+			progress_cube.style.left = 0;
+		}
+		audioInit();
+		//播放时间
+		audio.addEventListener("timeupdate", function () {
+			playedTime();
+		})
+		function playedTime() {
+			if (audio.currentTime == audio.duration) {
+				next_btn.onclick();
+				play_btn.onclick();
+			}
+			var n = audio.currentTime / audio.duration;
+			progress_cube.style.left = n * progress_bar.offsetWidth + "px";
+			initTime.innerHTML = format(audio.currentTime);
+			var id_num = parseInt(audio.currentTime);
+			var lyric_p = document.getElementsByTagName("p");
+			for (var i = 0; i < lyric_p.length; i++) {
+				lyric_p[i].index = i;
+			}
+			if (document.getElementById("lyric" + id_num)) {
+				var obj = document.getElementById("lyric" + id_num);
+				for (var i = 0; i < obj.index; i++) {
+					lyric_p[i].className = "played";
+				}
+				for (var j = obj.index; j < lyric_p.length; j++) {
+					lyric_p[j].className = "";
+				}
+				obj.className = "aquamarine active";
+				lyric_txt.style.top = lyric_con.offsetHeight / 2 - obj.offsetTop + "px";
+			}
+		}
+		function format(time) {
+			var time = parseInt(time);
+			var m = parseInt(time / 60);
+			var s = parseInt(time % 60);
+			m = zero(m);
+			s = zero(s);
+			function zero(num) {
+				if (num < 10) {
+					num = "0" + num;
+				}
+				return num;
+			}
+			return m + ":" + s;
+		}
+		//拖拽进度条
+		progress_cube.onmousedown = function (ev) {
+			var ev = ev || window.event;
+			var initX = ev.clientX - this.offsetLeft;
+			this.onmousemove = function (ev) {
+				var ev = ev || window.event;
+				var x = ev.clientX - initX;
+				if (x < 0) { x = 0 }
+				if (x > progress_bar.offsetWidth - 14) { x = progress_bar.offsetWidth - 14 }
+				play_ctrl(x);
+			}
+			document.onmouseup = function () {
+				document.onmousemove = null;
+				progress_cube.onmousemove = null;
+			}
+		}
+		function play_ctrl(x) {
+			var timego = x / progress_bar.offsetWidth * audio.duration;
+			progress_cube.style.left = x + "px";
+			audio.currentTime = timego;
+			playedTime();
+		}
+		//点击进度条位置
+		progress_bar.onclick = function (ev) {
+			var ev = ev || window.event;
+			var dis = ev.clientX - (container.offsetLeft + progress_bar.offsetLeft) - 7;
+			progress_cube.style.left = dis + "px";
+			play_ctrl(dis);
+		}/**/
+
+		//点击播放
+		play_btn.onclick = function () {
+			if (obj.play_mark) {
+				this.innerHTML = obj.endplay_btn;
+				audio.play();
+			}
+			else {
+				this.innerHTML = obj.play_btn;
+				audio.pause();
+			}
+			obj.play_mark = !obj.play_mark;
+		}
+		//歌词处理
+		function lyric_ctrl() {
+			var lyricObj = lyric[songIndex].content;
+			var temp = lyricObj.split("[");
+			var html = "";
+			for (var i = 0; i < temp.length; i++) {
+				var arr = temp[i].split("]");
+				var text = (arr[1]);
+				var time = arr[0].split(",");
+				var temp2 = time[0].split(".");
+				var ms = temp2[1];//毫秒
+				var temp3 = temp2[0].split(":");
+				var s = temp3[1];//秒
+				var m = temp3[0];//分
+				var s_sum = parseInt(m * 60) + parseInt(s);
+				if (text) {
+					html += "<p id='lyric" + s_sum + "'>" + text + "</p>";
+				}
+			}
+			lyric_txt.innerHTML = html;
+		}
+		lyric_ctrl();
+		function iconinit() {}
+	}
+</script>
