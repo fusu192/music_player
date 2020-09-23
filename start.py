@@ -21,11 +21,15 @@ class music(Resource):
         for i in os.listdir(music_storage):
             if(not i.startswith(".")):
                 if(not i.endswith(".lrc")):
-                    if(os.path.isfile(os.path.join(music_storage,i))):
+                    mfile=os.path.join(music_storage,i)
+                    if(os.path.isfile(mfile)):
+
+                        pre_name=os.path.splitext(i)[0]
+
                         dic={}
-                        dic["name"]=os.path.splitext(i)[0]
+                        dic["name"]=pre_name
                         dic["audio_src"]="musics/{}".format(i)
-                        with open(os.path.join(music_storage,"{}.lrc".format(os.path.splitext(i)[0])), 'r') as f1:
+                        with open(os.path.join(music_storage,"{}.lrc".format(pre_name)), 'r') as f1:
                             list1 = f1.readlines()
                             dic["content"]="".join(list1)
                         res.append(dic)

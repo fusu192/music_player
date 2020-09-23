@@ -258,7 +258,7 @@
 		var next_btn = document.getElementById("next_btn");
 		var audio = document.getElementsByTagName("audio")[0];
 		var initTime = document.getElementsByTagName("time")[0];
-		var time = document.getElementsByTagName("time")[1];
+		var all_time = document.getElementsByTagName("time")[1];
 		var progress_bar = document.getElementById("progress_bar");
 		var progress_cube = document.getElementById("progress_cube");
 
@@ -303,10 +303,12 @@
 			songIndex++;
 			change_music();
 		}
+		//上一曲
 		prev_btn.onclick = function () {
 			songIndex--;
 			change_music();
 		}
+
 		function change_music() {
 			if (songIndex >= lyric.length) {
 				//songIndex = 0
@@ -325,7 +327,7 @@
 
 		//初始化总时长、音量等
 		function audioInit() {
-			time.innerHTML = format(audio.duration);
+			//all_time.innerHTML = format(audio.duration);
 			play_btn.innerHTML = obj.play_btn;
 
 			lyric_tit.innerText = lyric[songIndex].name;
@@ -337,13 +339,21 @@
 		audio.addEventListener("timeupdate", function () {
 			playedTime();
 		})
+
+		
 		function playedTime() {
 			if (audio.currentTime == audio.duration) {
 				next_btn.onclick();
 				play_btn.onclick();
 			}
 			var n = audio.currentTime / audio.duration;
+
+			//更新音乐总时长
+			all_time.innerHTML = format(audio.duration);
+			
 			progress_cube.style.left = n * progress_bar.offsetWidth + "px";
+
+			//更新当前时间
 			initTime.innerHTML = format(audio.currentTime);
 			var id_num = parseInt(audio.currentTime);
 			var lyric_p = document.getElementsByTagName("p");
@@ -398,6 +408,7 @@
 			audio.currentTime = timego;
 			playedTime();
 		}
+
 		//点击进度条位置
 		progress_bar.onclick = function (ev) {
 			var ev = ev || window.event;
@@ -407,7 +418,7 @@
 		}/**/
 
 		//点击播放
-		play_btn.onclick = function () {
+		play_btn.onclick = function(){
 			if (obj.play_mark) {
 				this.innerHTML = obj.endplay_btn;
 				audio.play();
@@ -418,6 +429,7 @@
 			}
 			obj.play_mark = !obj.play_mark;
 		}
+		
 		//歌词处理
 		function lyric_ctrl() {
 			var lyricObj = lyric[songIndex].content;
@@ -426,8 +438,8 @@
 			for (var i = 0; i < temp.length; i++) {
 				var arr = temp[i].split("]");
 				var text = (arr[1]);
-				var time = arr[0].split(",");
-				var temp2 = time[0].split(".");
+				var tmp_time = arr[0].split(",");
+				var temp2 = tmp_time[0].split(".");
 				var ms = temp2[1];//毫秒
 				var temp3 = temp2[0].split(":");
 				var s = temp3[1];//秒
