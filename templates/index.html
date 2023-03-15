@@ -43,11 +43,13 @@
 		}
 
 		.container {
+			/*
 			position: absolute;
 			top: 40%;
 			left: 26%;
 			margin-left: -26%;
 			margin-top: -300px;
+			*/
 			/*width: 1000px;*/
 			/*height: 700px;*/
 			width: 100%;
@@ -105,17 +107,19 @@
 			width: 49px;
 			text-align: center;
 			color: #fff;
+			/*
 			height: 50px;
 			line-height: 50px;
-			/* float: left; */
+			float: left;
 			margin-top: 165px;
+			*/
 		}
 
 		.progress_bar {
 			position: relative;
-			width: 85%;
-			height: 2px;
-			margin-top: 190px;
+			width: 100%;
+			top: 13px;
+    		height: 3px;
 			background-color: #fff;
 			/* float: left; */
 			cursor: pointer;
@@ -137,7 +141,7 @@
 
 			line-height: 30px;
 			color: #ffffff;
-			margin-top: 35px;
+			/*margin-top: 35px;*/
 			position: relative;
 
 		}
@@ -169,26 +173,29 @@
 		}
 
 		.lyric_tit {
+			font-size: 26px;
 			height: 50px;
 			line-height: 50px;
 			color: #fff;
 			text-align: center;
 			font-weight: 700;
-			margin-top: 30px;
+			margin-top: 5em;
 			color: darkgrey;
 			color: aquamarine;
 		}
 
 		.lyric_con {
 			position: relative;
-			line-height: 40px;
+			top: 9%;
+			width: 700px;
+			height: 58%;
+    		margin: 0px auto;
+			line-height: 52px;
 			color: #fff;
-			font-size: 14px;
+			font-size: 26px;
 			padding: 0px 50px;
 			text-align: center;
-			height: 470px;
 			overflow: hidden;
-			margin-top: 20px;
 		}
 
 		#lyric_txt {
@@ -196,7 +203,6 @@
 			left: 0;
 			top: 0;
 			width: 100%;
-			height: 100%;
 		}
 
 		.lyric_con p.played {
@@ -205,7 +211,7 @@
 
 		.lyric_con p.active {
 			color: aquamarine;
-			font-size: 20px;
+			font-size: 32px;
 			font-weight: 700;
 		}
 
@@ -327,14 +333,21 @@
 
 		//初始化总时长、音量等
 		function audioInit() {
-			//all_time.innerHTML = format(audio.duration);
 			play_btn.innerHTML = obj.play_btn;
-
 			lyric_tit.innerText = lyric[songIndex].name;
 			audio.src = lyric[songIndex].audio_src;
+
+			audio.load();
+			audio.oncanplay = function () {  
+				console.log("myVid.duration",audio.duration);
+				//更新音乐总时长
+				all_time.innerHTML = format(audio.duration);
+			}
+			console.log("a",audio.duration);
 			progress_cube.style.left = 0;
 		}
 		audioInit();
+		
 		//播放时间
 		audio.addEventListener("timeupdate", function () {
 			playedTime();
@@ -347,9 +360,6 @@
 				play_btn.onclick();
 			}
 			var n = audio.currentTime / audio.duration;
-
-			//更新音乐总时长
-			all_time.innerHTML = format(audio.duration);
 			
 			progress_cube.style.left = n * progress_bar.offsetWidth + "px";
 
