@@ -89,7 +89,7 @@
 			font-family: "iconfont";
 			z-index: 99;
 			position: fixed;
-    		bottom: 66px;
+    		bottom: 70px;
 		}
 
 		.lyric {
@@ -138,10 +138,11 @@
 		}
 
 		.progress_obj {
-
+			max-width: 70%;
+    		margin: auto;
 			line-height: 30px;
 			color: #ffffff;
-			/*margin-top: 35px;*/
+			margin-top: 20px;
 			position: relative;
 
 		}
@@ -154,19 +155,27 @@
 
 		.ctrl_btn {
 			width: 359px;
-			/* float: left; */
+			display: flex;
+			margin: 0px auto;
+			/* 
+			float: left; 
 			position: absolute;
 			left: 50%;
 			top: 0;
 			transform: translateX(-50%);
+			*/
 		}
 
 		.ctrl_btn .btn {
 			width: 33.3%;
+			/*
 			float: left;
+			text-align: center;
+			*/
 			text-align: center;
 			cursor: pointer;
 		}
+		
 
 		.play_btn {
 			font-size: 24px;
@@ -187,7 +196,6 @@
 		.lyric_con {
 			position: relative;
 			top: 9%;
-			width: 700px;
 			height: 58%;
     		margin: 0px auto;
 			line-height: 52px;
@@ -227,6 +235,12 @@
 
 <body>
 	<div class="container" id="container">
+		<div class="lyric">
+			<div class="lyric_tit" id="lyric_tit"></div>
+			<div class="lyric_con" id="lyric_con">
+				<div id="lyric_txt"></div>
+			</div>
+		</div>
 		<div class="progress">
 			<div class="progress_obj progress_bar_box">
 				<time class="">00:00</time>
@@ -236,24 +250,16 @@
 				<time class="">00:00</time>
 			</div>
 			<div class="progress_obj clear">
-				<div class="ctrl_btn">
-					<div id="prev_btn" class="prev_btn btn">&#xe60d;</div>
-					<div id="play_btn" class="play_btn btn">&#xe60e;</div>
-					<div id="next_btn" class="next_btn btn">&#xe60b;</div>
-				</div>
+					<div class="ctrl_btn">
+						<div id="prev_btn" class="prev_btn btn">&#xe60d;</div>
+						<div id="play_btn" class="play_btn btn">&#xe60e;</div>
+						<div id="next_btn" class="next_btn btn">&#xe60b;</div>
+					</div>
 				<audio src="{{ mp3 }}"></audio>
 			</div>
 		</div>
-		<div class="lyric">
-			<div class="lyric_tit" id="lyric_tit"></div>
-			<div class="lyric_con" id="lyric_con">
-				<div id="lyric_txt"></div>
-			</div>
-		</div>
 	</div>
-
 </body>
-
 </html>
 
 <script>
@@ -463,5 +469,9 @@
 		}
 		lyric_ctrl();
 		function iconinit() {}
+	}
+
+	window.onresize=function(){
+		console.log(document.getElementById("lyric_con").offsetHeight);
 	}
 </script>

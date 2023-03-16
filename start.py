@@ -29,7 +29,7 @@ class music(Resource):
                         dic={}
                         dic["name"]=pre_name
                         dic["audio_src"]="musics/{}".format(i)
-                        with open(os.path.join(music_storage,"{}.lrc".format(pre_name)), 'r') as f1:
+                        with open(os.path.join(music_storage,"{}.lrc".format(pre_name)), 'r',encoding="utf-8") as f1:
                             list1 = f1.readlines()
                             dic["content"]="".join(list1)
                         res.append(dic)
