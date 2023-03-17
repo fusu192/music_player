@@ -138,7 +138,6 @@
 		}
 
 		.progress_obj {
-			max-width: 70%;
     		margin: auto;
 			line-height: 30px;
 			color: #ffffff;
@@ -154,7 +153,7 @@
 		}
 
 		.ctrl_btn {
-			width: 359px;
+			width: 360px;
 			display: flex;
 			margin: 0px auto;
 			/* 
@@ -167,11 +166,8 @@
 		}
 
 		.ctrl_btn .btn {
-			width: 33.3%;
-			/*
-			float: left;
-			text-align: center;
-			*/
+			margin: auto;
+			width: 36px;
 			text-align: center;
 			cursor: pointer;
 		}
@@ -198,7 +194,7 @@
 			top: 9%;
 			height: 58%;
     		margin: 0px auto;
-			line-height: 56px;
+			line-height: 61px;
 			color: #fff;
 			font-size: 26px;
 			padding: 0px 50px;
@@ -244,7 +240,7 @@
 		<div class="progress">
 			<div class="progress_obj progress_bar_box">
 				<time class="">00:00</time>
-				<div class="progress_bar" id="progress_bar" style="">
+				<div class="progress_bar" id="progress_bar">
 					<div class="progress_cube" id="progress_cube"></div>
 				</div>
 				<time class="">00:00</time>
@@ -255,7 +251,9 @@
 						<div id="play_btn" class="play_btn btn">&#xe60e;</div>
 						<div id="next_btn" class="next_btn btn">&#xe60b;</div>
 					</div>
-				<audio src="{{ mp3 }}"></audio>
+				<audio>
+					<source src="{{ mp3 }}"  type="audio/mpeg" id="source_audio"/>
+				</audio>
 			</div>
 		</div>
 	</div>
@@ -273,6 +271,8 @@
 		var all_time = document.getElementsByTagName("time")[1];
 		var progress_bar = document.getElementById("progress_bar");
 		var progress_cube = document.getElementById("progress_cube");
+		
+		var source_audio=document.getElementById("source_audio");
 
 		var lyric_con = document.getElementById("lyric_con");
 		var lyric_txt = document.getElementById("lyric_txt");
@@ -341,7 +341,8 @@
 		function audioInit() {
 			play_btn.innerHTML = obj.play_btn;
 			lyric_tit.innerText = lyric[songIndex].name;
-			audio.src = lyric[songIndex].audio_src;
+			//audio.src = lyric[songIndex].audio_src;
+			source_audio.src=lyric[songIndex].audio_src;
 
 			audio.load();
 			audio.oncanplay = function () {  
@@ -351,6 +352,7 @@
 			}
 			console.log("a",audio.duration);
 			progress_cube.style.left = 0;
+
 		}
 		audioInit();
 		
@@ -405,6 +407,7 @@
 		//拖拽进度条
 		progress_cube.onmousedown = function (ev) {
 			var ev = ev || window.event;
+			console.log(ev.clientX,this.offsetLeft)
 			var initX = ev.clientX - this.offsetLeft;
 			this.onmousemove = function (ev) {
 				var ev = ev || window.event;
@@ -433,6 +436,7 @@
 			play_ctrl(dis);
 		}/**/
 
+		
 		//点击播放
 		play_btn.onclick = function(){
 			if (obj.play_mark) {
